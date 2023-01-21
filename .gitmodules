@@ -1,3 +1,6 @@
 [submodule "wordset-dictionary"]
 	path = wordset-dictionary
 	url = git@github.com:wordset/wordset-dictionary.git
+[submodule "English-word-lists-parts-of-speech-approximate"]
+	path = English-word-lists-parts-of-speech-approximate
+	url = git@github.com:verachell/English-word-lists-parts-of-speech-approximate.git
