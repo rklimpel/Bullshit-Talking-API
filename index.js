@@ -44,7 +44,6 @@ app.listen(port, () => {
 });
 
 function handleRequest(req, res, generator) {
-	console.log(req.query.id);
 	try {
 		if (req.query.quantity === undefined || req.query.quantity === 0) {
 			res.send(getRequestAnswer(generator));
@@ -78,9 +77,6 @@ class BullshitGeneratorV2 {
 	fillSentencePlaceholder(sentence) {
 		while (sentence.includes("$")) {
 			speech_parts.forEach((sp) => {
-				console.log(
-					"Replace speeach part " + sp + " in sentence '" + sentence + "'"
-				);
 				sentence = sentence.replace(
 					"$" + sp,
 					this.getRandomWordBySpeechPart(sp)
@@ -128,7 +124,6 @@ class BullshitGeneratorV2 {
 		const directoryPath = path.join(__dirname, this.versionPath + directory);
 		let files = fs.readdirSync(directoryPath);
 		files.forEach((file) => {
-			console.log("Found file: '" + file + "'");
 			const wordlist = this.readWordlistFromFile(directoryPath + "/" + file);
 			data = data.concat(wordlist);
 		});
