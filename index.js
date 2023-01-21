@@ -28,20 +28,43 @@ const speech_parts = [
 ];
 
 app.get("/", (req, res) => {
-	try {
-		const bullshitGenerator = new BullshitGeneratorV2();
-		let sentence = bullshitGenerator.getRandomSentence();
-		sentence = capitalizeFirstLetter(sentence);
-		res.send(sentence);
-	} catch (err) {
-		console.error(err);
-		res.send(err);
-	}
+	res.redirect("./v2");
+});
+
+app.get("/v1", (req, res) => {
+	handleRequest(req, res, new BullshitGeneratorV1());
+});
+
+app.get("/v2", (req, res) => {
+	handleRequest(req, res, new BullshitGeneratorV2());
 });
 
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}!`);
 });
+
+function handleRequest(req, res, generator) {
+	console.log(req.query.id);
+	try {
+		if (req.query.quantity === undefined || req.query.quantity === 0) {
+			res.send(getRequestAnswer(generator));
+		} else {
+			let answers = [];
+			for (let index = 0; index < req.query.quantity; index++) {
+				answers.push(getRequestAnswer(generator));
+			}
+			res.send(answers.join("</br>"));
+		}
+	} catch (err) {
+		console.error(err);
+		res.send(err);
+	}
+}
+
+function getRequestAnswer(generator) {
+	let sentence = generator.getRandomSentence();
+	return capitalizeFirstLetter(sentence);
+}
 
 // Bullshit Generator using dataset from submodule "English-word-lists-parts-of-speech-approximate"
 class BullshitGeneratorV2 {
